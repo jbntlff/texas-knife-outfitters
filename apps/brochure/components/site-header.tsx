@@ -36,7 +36,7 @@ export function SiteHeader({ brandName, storefrontUrl }: SiteHeaderProps) {
               alt={brandName}
               width={2000}
               height={679}
-              className="h-10 w-auto shrink-0 object-contain"
+              className="h-10 w-auto shrink-0 object-contain dark:invert dark:brightness-0"
               priority
             />
           </Link>
