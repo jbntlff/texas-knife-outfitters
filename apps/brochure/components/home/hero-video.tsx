@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { appConfig, env } from "@tkb/config";
@@ -36,9 +37,14 @@ export function HeroVideo() {
       <div className="relative z-10 flex min-h-[calc(100svh-4rem)] items-center">
         <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.3em] text-white/90">
-              {appConfig.brandName}
-            </p>
+            <Image
+              src="/images/tko-logo-horizontal-transparent.webp"
+              alt={appConfig.brandName}
+              width={2000}
+              height={679}
+              className="mb-5 h-10 w-auto brightness-0 invert sm:h-12"
+              priority
+            />
 
             <h1 className="max-w-xl text-4xl font-semibold uppercase tracking-tight text-white sm:text-5xl lg:text-6xl">
               Built with purpose. Crafted with character.
