@@ -348,6 +348,7 @@ export default async function ProductDetailPage({
               name="image"
               accept="image/*"
               required
+              className="text-sm file:mr-3 file:cursor-pointer file:rounded file:border file:bg-muted file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-muted/70"
             />
           </div>
 
