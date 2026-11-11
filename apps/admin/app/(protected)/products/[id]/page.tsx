@@ -19,6 +19,7 @@ import {
   moveImageUp,
 } from "./actions";
 import { DeleteVariantButton } from "./delete-variant-button";
+import { UploadImageSubmitButton } from "./upload-image-submit-button";
 
 type PageProps = {
   params: Promise<{
@@ -359,12 +360,7 @@ export default async function ProductDetailPage({
             />
           </div>
 
-          <button
-            type="submit"
-            className=" rounded border px-4 py-2 "
-          >
-            Upload Image
-          </button>
+          <UploadImageSubmitButton />
         </form>
 
         {product.product_images?.length ? (
