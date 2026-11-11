@@ -29,20 +29,16 @@ export function SiteHeader({ brandName, storefrontUrl }: SiteHeaderProps) {
           <Link
             href="/"
             onClick={closeMenu}
-            className="flex items-center gap-3"
+            className="flex items-center"
           >
             <Image
-              src="/images/tko-icon.png"
+              src="/images/tko-logo-horizontal-favicon-icon.webp"
               alt={brandName}
-              width={40}
-              height={40}
-              className="h-10 w-10 shrink-0 object-contain"
+              width={2000}
+              height={679}
+              className="h-10 w-auto shrink-0 object-contain"
               priority
             />
-
-            <span className="text-xl font-bold tracking-tight">
-              {brandName}
-            </span>
           </Link>
 
           <nav className="hidden items-center gap-6 md:flex">
