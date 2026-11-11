@@ -38,7 +38,7 @@ export function HeroVideo() {
         <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
             <Image
-              src="/images/tko-logo-horizontal-transparent.webp"
+              src="/images/tko-logo-horizontal-favicon-icon.webp"
               alt={appConfig.brandName}
               width={2000}
               height={679}
