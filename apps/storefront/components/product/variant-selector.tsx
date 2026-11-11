@@ -58,49 +58,23 @@ export function VariantSelector({
     }
   }
 
-  // A value is pickable only if some variant has it alongside every other
-  // option the buyer has already picked — otherwise selecting it would
-  // resolve to no real variant, and product-detail.tsx would silently
-  // fall back to the first variant instead of what's actually checked.
+  // A value is pickable as long as some variant has it at all — even if
+  // that variant differs from the buyer's other current picks.
+  // onOptionChange (in product-detail.tsx) resolves every click to that
+  // variant's full set of options, so clicking a value that conflicts
+  // with another axis snaps the other axis to match instead of leaving
+  // it stuck on an unreachable combination.
   function isValueAvailable(
     optionName: string,
     value: string
   ) {
-    return variants.some((variant) => {
-      const hasThisValue =
-        variant.variant_options.some(
-          (option) =>
-            option.option_name ===
-              optionName &&
-            option.option_value === value
-        );
-
-      if (!hasThisValue) {
-        return false;
-      }
-
-      return variant.variant_options.every(
-        (option) => {
-          if (
-            option.option_name ===
-            optionName
-          ) {
-            return true;
-          }
-
-          const selected =
-            selectedOptions[
-              option.option_name
-            ];
-
-          return (
-            selected === undefined ||
-            selected ===
-              option.option_value
-          );
-        }
-      );
-    });
+    return variants.some((variant) =>
+      variant.variant_options.some(
+        (option) =>
+          option.option_name === optionName &&
+          option.option_value === value
+      )
+    );
   }
 
   return (

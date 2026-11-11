@@ -121,10 +121,51 @@ export function ProductDetail({
                 optionName,
                 optionValue
               ) =>
-                setSelectedOptions((prev) => ({
-                  ...prev,
-                  [optionName]: optionValue,
-                }))
+                setSelectedOptions((prev) => {
+                  const candidates =
+                    product.product_variants.filter(
+                      (variant) =>
+                        variant.variant_options.some(
+                          (option) =>
+                            option.option_name ===
+                              optionName &&
+                            option.option_value ===
+                              optionValue
+                        )
+                    );
+
+                  // Prefer a variant that keeps every other
+                  // axis the buyer already picked; only when
+                  // that's impossible (a diagonal variant
+                  // matrix) do we fall back to the first
+                  // variant with this value and adopt its
+                  // other option values too, so every click
+                  // lands on a real, valid variant.
+                  const match =
+                    candidates.find((variant) =>
+                      variant.variant_options.every(
+                        (option) =>
+                          option.option_name ===
+                            optionName ||
+                          prev[
+                            option.option_name
+                          ] === option.option_value
+                      )
+                    ) ?? candidates[0];
+
+                  if (!match) {
+                    return prev;
+                  }
+
+                  return Object.fromEntries(
+                    match.variant_options.map(
+                      (option) => [
+                        option.option_name,
+                        option.option_value,
+                      ]
+                    )
+                  );
+                })
               }
             />
           </div>
