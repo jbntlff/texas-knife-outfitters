@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { createClient } from "@tkb/auth";
 
@@ -103,6 +104,15 @@ export function LoginForm() {
           Sign In
         </button>
       </form>
+
+      <p className="mt-4 text-center text-sm">
+        <Link
+          href="/forgot-password"
+          className="text-muted-foreground hover:underline"
+        >
+          Forgot password?
+        </Link>
+      </p>
     </div>
   );
 }
