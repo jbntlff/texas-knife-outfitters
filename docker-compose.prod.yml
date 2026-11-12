@@ -72,6 +72,11 @@ services:
       MAILPIT_USER: ${SMTP_USER}
       MAILPIT_PASS: ${SMTP_PASS}
       EMAIL_FROM: ${EMAIL_FROM}
+      # Set by deploy.yml right before `docker compose up --build`, from the
+      # VPS's own checkout — not a build arg, since the admin Settings page
+      # only needs to read these at request time, server-side.
+      GIT_SHA: ${GIT_SHA}
+      BUILD_TIME: ${BUILD_TIME}
     expose:
       - "3000"
 
