@@ -96,12 +96,28 @@ export function ResetPasswordForm() {
 
     setVerifying(true);
 
-    const { error: verifyError } =
-      await supabase.auth.verifyOtp({
-        email: trimmedEmail,
-        token: trimmedCode,
-        type: "recovery",
-      });
+    // This page is also where an admin-triggered invite lands (see
+    // inviteCustomer in apps/admin), whose email offers the same
+    // "enter the code" fallback — but an invite code is a different
+    // OTP type than a password-reset code, and GoTrue rejects a code
+    // verified under the wrong type. Try both rather than requiring
+    // the caller to know which flow they're in.
+    let verifyError: { message: string } | null = null;
+
+    for (const type of ["recovery", "invite"] as const) {
+      const { error } =
+        await supabase.auth.verifyOtp({
+          email: trimmedEmail,
+          token: trimmedCode,
+          type,
+        });
+
+      verifyError = error;
+
+      if (!error) {
+        break;
+      }
+    }
 
     setVerifying(false);
 

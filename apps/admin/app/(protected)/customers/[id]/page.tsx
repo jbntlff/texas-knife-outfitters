@@ -124,6 +124,7 @@ export default async function CustomerDetailPage({
             </label>
 
             <select
+              key={customer.role}
               name="role"
               defaultValue={customer.role}
               className="w-full rounded border px-3 py-2"
