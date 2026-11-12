@@ -24,12 +24,29 @@ export async function inviteCustomer(
       .toLowerCase();
 
   if (!firstName || !lastName || !email) {
-    throw new Error(
-      "First name, last name, and email are required.",
+    redirect(
+      `/customers?error=${encodeURIComponent("First name, last name, and email are required.")}`,
     );
   }
 
   const supabase = createAdminClient();
+
+  // A plain .insert() below would crash with an unhandled Postgres
+  // unique-violation if this email is already a customer — check
+  // first so re-submitting (e.g. the same invite twice) shows a
+  // readable message instead of Next's generic error page.
+  const { data: existingProfile } =
+    await supabase
+      .from("profiles")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+  if (existingProfile) {
+    redirect(
+      `/customers?error=${encodeURIComponent("A customer with this email already exists.")}`,
+    );
+  }
 
   const storefrontUrl =
     process.env.NEXT_PUBLIC_STOREFRONT_URL;
@@ -50,14 +67,16 @@ export async function inviteCustomer(
     );
 
   if (error) {
-    throw error;
+    redirect(
+      `/customers?error=${encodeURIComponent(error.message)}`,
+    );
   }
 
   const user = data.user;
 
   if (!user) {
-    throw new Error(
-      "Invite did not return a user.",
+    redirect(
+      `/customers?error=${encodeURIComponent("Invite did not return a user.")}`,
     );
   }
 
@@ -74,7 +93,9 @@ export async function inviteCustomer(
       });
 
   if (profileError) {
-    throw profileError;
+    redirect(
+      `/customers?error=${encodeURIComponent(profileError.message)}`,
+    );
   }
 
   revalidatePath("/customers");

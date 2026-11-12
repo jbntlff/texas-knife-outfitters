@@ -5,7 +5,17 @@ import { formatPrice, Button } from "@tkb/ui";
 
 import { inviteCustomer } from "./actions";
 
-export default async function CustomersPage() {
+type PageProps = {
+  searchParams: Promise<{
+    error?: string;
+  }>;
+};
+
+export default async function CustomersPage({
+  searchParams,
+}: PageProps) {
+  const { error } = await searchParams;
+
   const customers = await getCustomers();
   const orders = await getOrders();
 
@@ -41,6 +51,12 @@ export default async function CustomersPage() {
           Manage customer accounts.
         </p>
       </div>
+
+      {error && (
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       <div className="rounded-xl border p-6">
         <h2 className="mb-4 text-xl font-semibold">
