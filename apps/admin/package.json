@@ -29,6 +29,7 @@
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.1",
     "@tkb/auth": "workspace:*",
+    "@tkb/config": "workspace:*",
     "@tkb/database": "workspace:*",
     "@tkb/ui": "workspace:*",
     "lucide-react": "^1.17.0",

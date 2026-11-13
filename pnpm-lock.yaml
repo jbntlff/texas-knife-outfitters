@@ -57,6 +57,9 @@ importers:
       '@tkb/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@tkb/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@tkb/database':
         specifier: workspace:*
         version: link:../../packages/database

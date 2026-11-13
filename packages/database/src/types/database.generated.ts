@@ -7,31 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       brands: {
@@ -408,9 +383,9 @@ export type Database = {
           featured: boolean
           id: string
           name: string
+          series: string | null
           short_description: string | null
           show_in_gallery: boolean
-          series: string | null
           slug: string
           status: string
           updated_at: string
@@ -423,9 +398,9 @@ export type Database = {
           featured?: boolean
           id?: string
           name: string
+          series?: string | null
           short_description?: string | null
           show_in_gallery?: boolean
-          series?: string | null
           slug: string
           status?: string
           updated_at?: string
@@ -438,9 +413,9 @@ export type Database = {
           featured?: boolean
           id?: string
           name?: string
+          series?: string | null
           short_description?: string | null
           show_in_gallery?: boolean
-          series?: string | null
           slug?: string
           status?: string
           updated_at?: string
@@ -489,6 +464,42 @@ export type Database = {
           last_name?: string | null
           marketing_opt_in?: boolean
           role?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          quote: string
+          rating: number
+          reviewer_name: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          quote: string
+          rating: number
+          reviewer_name: string
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          quote?: string
+          rating?: number
+          reviewer_name?: string
+          role?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -665,9 +676,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

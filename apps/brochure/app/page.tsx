@@ -1,10 +1,14 @@
 import Link from "next/link";
 
 import { appConfig } from "@tkb/config";
+import { getActiveReviews } from "@tkb/database";
 
 import { HeroVideo } from "@/components/home/hero-video";
+import { TkoReviews } from "@/components/home/tko-reviews";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const reviews = await getActiveReviews();
+
   return (
     <>
       <HeroVideo />
@@ -63,6 +67,8 @@ export default function HomePage() {
           </Link>
         </section>
       </main>
+
+      <TkoReviews reviews={reviews} />
     </>
   );
 }
