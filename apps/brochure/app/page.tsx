@@ -6,6 +6,10 @@ import { getActiveReviews } from "@tkb/database";
 import { HeroVideo } from "@/components/home/hero-video";
 import { TkoReviews } from "@/components/home/tko-reviews";
 
+// Otherwise this page is static (generated once at build time), so reviews
+// added/edited/removed in the admin would never show up without a redeploy.
+export const revalidate = 60;
+
 export default async function HomePage() {
   const reviews = await getActiveReviews();
 
