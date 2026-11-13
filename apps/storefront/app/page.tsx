@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
+import { appConfig } from "@tkb/config";
 import { resolveProductImageUrl } from "@tkb/ui";
 import { getProducts } from "@tkb/database";
 
@@ -71,7 +72,8 @@ export default async function HomePage({
 
           <p className="mt-6 text-lg text-muted-foreground">
             Discover everyday carry, hunting, outdoor, and collector knives
-            from trusted brands like Benchmade, Spyderco, and more.
+            from the brand Texans trust the most,{" "}
+            &ldquo;{appConfig.brandName}&rdquo;.
           </p>
 
           <div className="mt-8 flex gap-4">
