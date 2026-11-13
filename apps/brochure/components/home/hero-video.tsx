@@ -42,7 +42,7 @@ export function HeroVideo() {
               alt={appConfig.brandName}
               width={2000}
               height={679}
-              className="mb-5 h-10 w-auto brightness-0 invert sm:h-12 lg:h-[60px]"
+              className="mb-5 h-[70px] w-auto brightness-0 invert sm:h-[84px] lg:h-[105px]"
               priority
             />
 
