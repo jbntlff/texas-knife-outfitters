@@ -47,6 +47,11 @@ export default async function BrandPage(
       </div>
       <div className="rounded-xl border p-6">
         <form
+          key={JSON.stringify([
+            brand.name,
+            brand.slug,
+            brand.description,
+          ])}
           action={updateBrand}
           className="space-y-4"
         >

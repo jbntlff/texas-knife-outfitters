@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Without this, Tailwind never sees the classes used only inside shared
+   @tkb/ui components (e.g. Button's danger/success variants) and silently
+   never generates them. */
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

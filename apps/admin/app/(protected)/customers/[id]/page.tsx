@@ -72,6 +72,7 @@ export default async function CustomerDetailPage({
               </label>
 
               <input
+                key={customer.first_name}
                 name="firstName"
                 defaultValue={
                   customer.first_name ?? ""
@@ -87,6 +88,7 @@ export default async function CustomerDetailPage({
               </label>
 
               <input
+                key={customer.last_name}
                 name="lastName"
                 defaultValue={
                   customer.last_name ?? ""
@@ -103,6 +105,7 @@ export default async function CustomerDetailPage({
             </label>
 
             <input
+              key={customer.email}
               name="email"
               type="email"
               defaultValue={customer.email}
@@ -141,6 +144,7 @@ export default async function CustomerDetailPage({
 
           <div className="flex items-center gap-2">
             <input
+              key={String(customer.marketing_opt_in)}
               type="checkbox"
               name="marketingOptIn"
               defaultChecked={

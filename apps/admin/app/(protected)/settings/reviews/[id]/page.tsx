@@ -43,6 +43,7 @@ export default async function ReviewPage(
 
       <div className="rounded-xl border p-6">
         <form
+          key={review.updated_at}
           action={updateReview}
           className="space-y-4"
         >

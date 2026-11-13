@@ -106,6 +106,7 @@ export default async function ProductDetailPage({
         </h2>
 
         <form
+          key={product.updated_at}
           action={updateProduct}
           className="space-y-4"
         >
@@ -790,6 +791,7 @@ export default async function ProductDetailPage({
                           value={product.id}
                         />
                         <input
+                          key={variant.inventory?.quantity ?? 0}
                           type="number"
                           name="quantity"
                           defaultValue={

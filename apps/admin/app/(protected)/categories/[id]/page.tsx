@@ -47,6 +47,11 @@ export default async function CategoryPage(
       </div>
       <div className="rounded-xl border p-6">
         <form
+          key={JSON.stringify([
+            category.name,
+            category.slug,
+            category.description,
+          ])}
           action={updateCategory}
           className="space-y-4"
         >
