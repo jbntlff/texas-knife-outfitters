@@ -53,7 +53,7 @@ export function HeroVideo() {
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/85 sm:text-xl">
               At {appConfig.brandName}, we believe a great knife is more than
               a tool—it&rsquo;s a reflection of craftsmanship, character, and
-              the people who carry it. Discover handcrafted, MidTech, and
+              the people who carry it. Discover Legacy, Performance, and
               Signature Series knives built for the outdoors, everyday use,
               and those who appreciate a knife made right.
             </p>
