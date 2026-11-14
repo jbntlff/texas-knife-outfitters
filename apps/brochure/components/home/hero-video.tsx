@@ -51,15 +51,16 @@ export function HeroVideo() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/85 sm:text-xl">
-              At {appConfig.brandName}, we believe a great knife is more than
-              a tool—it&rsquo;s a reflection of craftsmanship, character, and
-              the people who carry it. Discover Legacy, Performance, and
-              Signature Series knives built for the outdoors, everyday use,
-              and those who appreciate a knife made right.
+              Born from Knifemaker&rsquo;s expertise and the shared spirit of
+              two Texas outdoorsmen, {appConfig.brandName} brings together
+              craftsmanship, performance, and a deep-rooted love for the
+              outdoors. Knives by Bladesmiths, Brian Milinski and Joel
+              Bintliff, are designed with purpose, built for performance,
+              inspired by quality and the Texas way of life.
             </p>
 
             <p className="mt-4 max-w-xl text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-              Quality craftsmanship. Texas spirit. Knives built to last.
+              Performance Knives with a Texas Heritage.
             </p>
 
             <div className="mt-9">
