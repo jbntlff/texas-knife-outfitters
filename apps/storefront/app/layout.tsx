@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from '@/components/cart/cart-provider'
 import { CartLink } from "@/components/cart/cart-link"
@@ -53,11 +52,11 @@ export default async function RootLayout({
                   className="flex items-center gap-3"
                 >
                   <Image
-                    src="/images/TKO-web-logo.png"
+                    src="/images/tko-logo-horizontal-favicon-icon.webp"
                     alt="Texas Knife Outfitters"
-                    width={1435}
-                    height={1003}
-                    className="h-12 w-auto shrink-0 object-contain"
+                    width={2000}
+                    height={679}
+                    className="h-10 w-auto shrink-0 object-contain dark:invert dark:brightness-0"
                     priority
                   />
                 </a>
@@ -83,12 +82,12 @@ export default async function RootLayout({
                   </form>
 
                   <nav className="flex items-center gap-6">
-                    <Link
-                      href="/"
+                    <a
+                      href={env.brochureUrl}
                       className="text-sm text-muted-foreground hover:text-foreground"
                     >
                       Home
-                    </Link>
+                    </a>
                     <AccountLink />
                     <CartLink />
                   </nav>
