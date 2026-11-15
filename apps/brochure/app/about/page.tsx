@@ -52,7 +52,7 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold">The Founders</h2>
 
         <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-          Joel Bintliff &amp; Brian Milinski
+          Brian Milinski &amp; Joel Bintliff
         </p>
 
         <p className="mt-2 text-lg font-semibold text-foreground">
@@ -63,7 +63,7 @@ export default function AboutPage() {
           <div className="relative float-none mt-4 aspect-[4/3] w-full overflow-hidden rounded-2xl border sm:float-left sm:mr-6 sm:mb-4 sm:aspect-auto sm:w-72 sm:h-[216px]">
             <Image
               src="/images/joel-and-brian.jpg"
-              alt="Joel Bintliff and Brian Milinski at the Texas Custom Knife Show"
+              alt="Brian Milinski and Joel Bintliff at the Texas Custom Knife Show"
               fill
               className="object-cover object-top"
             />
@@ -76,7 +76,7 @@ export default function AboutPage() {
           </p>
 
           <p className="mt-4 text-muted-foreground">
-            For Joel Bintliff and Brian Milinski, that appreciation started
+            For Brian Milinski and Joel Bintliff, that appreciation started
             long before {appConfig.brandName} was ever an idea.
           </p>
 
