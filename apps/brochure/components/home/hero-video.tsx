@@ -51,11 +51,11 @@ export function HeroVideo() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/85 sm:text-xl">
-              Born from Knifemaker&rsquo;s expertise and the shared spirit of
+              Born from knifemakers&rsquo; expertise and the shared spirit of
               two Texas outdoorsmen, {appConfig.brandName} brings together
               craftsmanship, performance, and a deep-rooted love for the
-              outdoors. Knives by Bladesmiths, Brian Milinski and Joel
-              Bintliff, are designed with purpose, built for performance,
+              outdoors. Knives by bladesmiths Brian Milinski and Joel
+              Bintliff are designed with purpose, built for performance,
               inspired by quality and the Texas way of life.
             </p>
 
