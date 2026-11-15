@@ -125,19 +125,19 @@ export default async function ContactPage({
 
       <div className="mt-8 max-w-2xl rounded-2xl border bg-muted p-8 shadow-sm">
         <address className="not-italic leading-relaxed">
-          Texas Knife Outfitters
+          Texas Knife Outfitters, LLC
           <br />
-          1100 Michalke Rd.
+          Schulenburg, TX
           <br />
-          Schulenburg, TX 78956
-          <br />
+          SMS only:{" "}
           <a
-            href="tel:+18326170051"
+            href="sms:+18326170051"
             className="hover:underline"
           >
             832.617.0051
           </a>
           <br />
+          Email:{" "}
           <a
             href="mailto:howdy@txknife.com"
             className="hover:underline"
