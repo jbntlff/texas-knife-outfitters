@@ -49,6 +49,90 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-10 grid max-w-5xl gap-10 lg:grid-cols-2 lg:items-center">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border lg:order-1">
+          <Image
+            src="/images/joel-and-brian.jpg"
+            alt="Joel Bintliff and Brian Milinski at the Texas Custom Knife Show"
+            fill
+            className="object-cover object-top"
+          />
+        </div>
+
+        <div className="lg:order-2">
+          <h2 className="text-xl font-semibold">The Founders</h2>
+
+          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+            Joel Bintliff &amp; Brian Milinski
+          </p>
+
+          <p className="mt-2 text-lg font-semibold text-foreground">
+            Built on experience, with deep Texas roots.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Some things are just part of growing up in Texas: hunting,
+            working with your hands, spending time outdoors, and knowing the
+            value of a good knife.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            For Joel Bintliff and Brian Milinski, that appreciation started
+            long before {appConfig.brandName} was ever an idea.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Joel&rsquo;s family life centered on a steakhouse in Houston, TX,
+            and cattle farms an hour west in Schulenburg, TX. This is where
+            hard work, hunting, and practical tools were part of everyday
+            life. His years around the restaurant also gave him firsthand
+            experience with knives in one of their most demanding
+            environments. From the farm to the kitchen, Joel developed an
+            appreciation for quality tools that perform when they&rsquo;re
+            needed.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Brian&rsquo;s appreciation for knives also began outdoors,
+            growing up hunting and developing an understanding of the
+            importance of dependable equipment. His path eventually led him
+            to culinary school, where he gained a deeper appreciation for the
+            design, balance, and purpose behind quality cutlery. That
+            interest grew into a passion for knifemaking. With more than 17
+            years of experience crafting custom knives, Brian has developed a
+            reputation for combining functionality, craftsmanship, and
+            attention to detail. His work has been featured in Blade
+            Magazine, Knife Magazine, and Knives Annual, along with multiple
+            Best Folder awards at the Texas Custom Knife Show.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Although their paths were different, Joel and Brian share a
+            common appreciation for well-made knives, practical design, and
+            products built to last.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            That shared perspective is what led to {appConfig.brandName}.
+            Both hold Guild certifications that reflect their drive for
+            high-performing cutlery.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Our goal is simple: bring together quality knives, trusted
+            brands, and practical designs that appeal to people who
+            appreciate a good knife as much as we do.
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            Whether you&rsquo;re looking for an everyday carry knife,
+            dependable hunting equipment, quality kitchen cutlery, or
+            something special to add to your collection, we want to make
+            finding the right knife an enjoyable experience.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-10 grid max-w-5xl gap-10 lg:grid-cols-2 lg:items-center">
         <div>
           <h2 className="text-xl font-semibold">The Craft</h2>
 
