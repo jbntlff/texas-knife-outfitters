@@ -48,26 +48,26 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-10 grid max-w-5xl gap-10 lg:grid-cols-2 lg:items-center">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border lg:order-1">
-          <Image
-            src="/images/joel-and-brian.jpg"
-            alt="Joel Bintliff and Brian Milinski at the Texas Custom Knife Show"
-            fill
-            className="object-cover object-top"
-          />
-        </div>
+      <div className="mt-10 max-w-5xl">
+        <h2 className="text-xl font-semibold">The Founders</h2>
 
-        <div className="lg:order-2">
-          <h2 className="text-xl font-semibold">The Founders</h2>
+        <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+          Joel Bintliff &amp; Brian Milinski
+        </p>
 
-          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-            Joel Bintliff &amp; Brian Milinski
-          </p>
+        <p className="mt-2 text-lg font-semibold text-foreground">
+          Built on experience, with deep Texas roots.
+        </p>
 
-          <p className="mt-2 text-lg font-semibold text-foreground">
-            Built on experience, with deep Texas roots.
-          </p>
+        <div>
+          <div className="relative float-none mt-4 aspect-[4/3] w-full overflow-hidden rounded-2xl border sm:float-left sm:mr-6 sm:mb-4 sm:aspect-auto sm:w-72 sm:h-[216px]">
+            <Image
+              src="/images/joel-and-brian.jpg"
+              alt="Joel Bintliff and Brian Milinski at the Texas Custom Knife Show"
+              fill
+              className="object-cover object-top"
+            />
+          </div>
 
           <p className="mt-4 text-muted-foreground">
             Some things are just part of growing up in Texas: hunting,
@@ -129,6 +129,8 @@ export default function AboutPage() {
             something special to add to your collection, we want to make
             finding the right knife an enjoyable experience.
           </p>
+
+          <div className="clear-both" />
         </div>
       </div>
 
