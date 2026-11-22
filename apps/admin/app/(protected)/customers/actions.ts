@@ -103,10 +103,16 @@ export async function inviteCustomer(
   redirect(`/customers/${user.id}`);
 }
 
+const ASSIGNABLE_ROLES = [
+  "customer",
+  "admin",
+  "super_admin",
+];
+
 export async function updateCustomer(
   formData: FormData,
 ) {
-  await requireAdmin();
+  const actor = await requireAdmin();
 
   const customerId =
     formData.get("customerId") as string;
@@ -129,6 +135,44 @@ export async function updateCustomer(
       .toLowerCase();
 
   const supabase = createAdminClient();
+
+  const { data: target, error: targetError } =
+    await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", customerId)
+      .maybeSingle();
+
+  if (targetError) {
+    throw targetError;
+  }
+
+  if (!target) {
+    throw new Error("Customer not found.");
+  }
+
+  // Guard role changes on the server, not just in the form.
+  if (role !== target.role) {
+    if (!ASSIGNABLE_ROLES.includes(role)) {
+      throw new Error("Invalid role.");
+    }
+
+    if (customerId === actor.id) {
+      throw new Error(
+        "You can't change your own role.",
+      );
+    }
+
+    if (
+      (role === "super_admin" ||
+        target.role === "super_admin") &&
+      actor.role !== "super_admin"
+    ) {
+      throw new Error(
+        "Only a Super Admin can grant or remove the Super Admin role.",
+      );
+    }
+  }
 
   if (email) {
     // Updates the real login email directly, bypassing the normal

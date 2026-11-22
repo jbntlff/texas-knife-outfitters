@@ -6,6 +6,7 @@ import {
   getOrdersByCustomerId,
 } from "@tkb/database";
 import { formatPrice, Button } from "@tkb/ui";
+import { requireAdmin } from "@tkb/auth/server";
 
 import { updateCustomer } from "../actions";
 import { DeleteCustomerButton } from "./delete-customer-button";
@@ -22,6 +23,8 @@ export default async function CustomerDetailPage({
 }: PageProps) {
   const { id } = await params;
 
+  const viewer = await requireAdmin();
+
   const customer = await getCustomerById(id);
 
   if (!customer) {
@@ -29,6 +32,39 @@ export default async function CustomerDetailPage({
   }
 
   const orders = await getOrdersByCustomerId(id);
+
+  // Role editing rules (enforced again in updateCustomer):
+  // - nobody changes their own role, so you can't lock yourself out;
+  // - only a super admin can grant or remove Super Admin.
+  const isSelf = viewer.id === customer.id;
+  const viewerIsSuperAdmin =
+    viewer.role === "super_admin";
+  const roleLocked =
+    isSelf ||
+    (customer.role === "super_admin" &&
+      !viewerIsSuperAdmin);
+
+  const roleOptions = [
+    { value: "customer", label: "Customer" },
+    { value: "admin", label: "Admin" },
+    ...(viewerIsSuperAdmin ||
+    customer.role === "super_admin"
+      ? [{ value: "super_admin", label: "Super Admin" }]
+      : []),
+  ];
+
+  // Always show the current role, even an unexpected one, so the select
+  // never silently falls back to the first option.
+  if (
+    !roleOptions.some(
+      (option) => option.value === customer.role,
+    )
+  ) {
+    roleOptions.push({
+      value: customer.role,
+      label: customer.role,
+    });
+  }
 
   // Cancelled orders stay in the history but don't count as sales.
   const activeOrders = orders.filter(
@@ -139,18 +175,37 @@ export default async function CustomerDetailPage({
 
             <select
               key={customer.role}
-              name="role"
+              name={roleLocked ? undefined : "role"}
               defaultValue={customer.role}
-              className="w-full rounded border px-3 py-2"
+              disabled={roleLocked}
+              className="w-full rounded border px-3 py-2 disabled:opacity-60"
             >
-              <option value="customer">
-                Customer
-              </option>
-
-              <option value="admin">
-                Admin
-              </option>
+              {roleOptions.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                >
+                  {option.label}
+                </option>
+              ))}
             </select>
+
+            {roleLocked && (
+              <>
+                {/* Disabled selects aren't submitted; keep the role as-is. */}
+                <input
+                  type="hidden"
+                  name="role"
+                  value={customer.role}
+                />
+
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {isSelf
+                    ? "You can't change your own role."
+                    : "Only a Super Admin can change this role."}
+                </p>
+              </>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
