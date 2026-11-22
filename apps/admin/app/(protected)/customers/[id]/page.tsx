@@ -30,6 +30,17 @@ export default async function CustomerDetailPage({
 
   const orders = await getOrdersByCustomerId(id);
 
+  // Cancelled orders stay in the history but don't count as sales.
+  const activeOrders = orders.filter(
+    (order) => order.status !== "cancelled",
+  );
+  const cancelledCount =
+    orders.length - activeOrders.length;
+  const totalSpent = activeOrders.reduce(
+    (sum, order) => sum + Number(order.grand_total),
+    0,
+  );
+
   return (
     <div className="space-y-6">
       <div>
@@ -174,9 +185,24 @@ export default async function CustomerDetailPage({
       </div>
 
       <div className="rounded-xl border p-6">
-        <h2 className="mb-4 text-xl font-semibold">
+        <h2 className="mb-1 text-xl font-semibold">
           Order History
         </h2>
+
+        <p className="mb-4 text-sm text-muted-foreground">
+          {activeOrders.length} order
+          {activeOrders.length === 1 ? "" : "s"} ·{" "}
+          {formatPrice(totalSpent)} spent ·{" "}
+          <span
+            className={
+              cancelledCount > 0
+                ? "font-medium text-red-700"
+                : undefined
+            }
+          >
+            {cancelledCount} cancelled
+          </span>
+        </p>
 
         {orders.length === 0 ? (
           <p className="text-sm text-muted-foreground">
@@ -201,11 +227,24 @@ export default async function CustomerDetailPage({
                     {new Date(
                       order.created_at,
                     ).toLocaleDateString()}{" "}
-                    · {order.status}
+                    ·{" "}
+                    {order.status === "cancelled" ? (
+                      <span className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">
+                        cancelled
+                      </span>
+                    ) : (
+                      order.status
+                    )}
                   </div>
                 </div>
 
-                <div>
+                <div
+                  className={
+                    order.status === "cancelled"
+                      ? "text-muted-foreground line-through"
+                      : undefined
+                  }
+                >
                   {formatPrice(
                     order.grand_total,
                   )}

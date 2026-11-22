@@ -431,8 +431,12 @@ export async function updateOrderStatus(
 }
 
 export async function getOrderMetrics() {
+  // Cancelled orders aren't sales: leave them out of counts and revenue.
   const orders =
-    await getOrders();
+    (await getOrders()).filter(
+      (order) =>
+        order.status !== "cancelled",
+    );
 
   const totalOrders =
     orders.length;

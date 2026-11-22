@@ -131,7 +131,12 @@ export default async function SettingsPage() {
                 </td>
 
                 <td className="p-4">
-                  {admin.email}
+                  <Link
+                    href={`/customers/${admin.id}`}
+                    className="hover:underline"
+                  >
+                    {admin.email}
+                  </Link>
                 </td>
 
                 <td className="p-4">

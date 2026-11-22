@@ -21,7 +21,7 @@ export default async function CustomersPage({
 
   const statsByCustomer = new Map<
     string,
-    { count: number; total: number }
+    { count: number; total: number; cancelled: number }
   >();
 
   for (const order of orders) {
@@ -33,10 +33,16 @@ export default async function CustomersPage({
       statsByCustomer.get(order.customer_id) ?? {
         count: 0,
         total: 0,
+        cancelled: 0,
       };
 
-    stat.count += 1;
-    stat.total += Number(order.grand_total);
+    // Cancelled orders are tracked separately and don't count as sales.
+    if (order.status === "cancelled") {
+      stat.cancelled += 1;
+    } else {
+      stat.count += 1;
+      stat.total += Number(order.grand_total);
+    }
 
     statsByCustomer.set(order.customer_id, stat);
   }
@@ -112,6 +118,9 @@ export default async function CustomersPage({
                 Orders
               </th>
               <th className="p-4 text-right">
+                Cancelled
+              </th>
+              <th className="p-4 text-right">
                 Total Spent
               </th>
               <th className="p-4 text-left">
@@ -155,6 +164,16 @@ export default async function CustomersPage({
                     {stats?.count ?? 0}
                   </td>
 
+                  <td
+                    className={`p-4 text-right ${
+                      stats?.cancelled
+                        ? "font-medium text-red-700"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    {stats?.cancelled ?? 0}
+                  </td>
+
                   <td className="p-4 text-right">
                     {formatPrice(
                       stats?.total ?? 0,
@@ -173,7 +192,7 @@ export default async function CustomersPage({
             {customers.length === 0 && (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="p-4 text-center text-sm text-muted-foreground"
                 >
                   No customers yet.
