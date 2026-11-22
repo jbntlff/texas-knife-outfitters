@@ -89,6 +89,7 @@ export default async function OrdersPage({
           <option value="shipped"> Shipped </option>
           <option value="delivered"> Delivered </option>
           <option value="cancelled"> Cancelled </option>
+          <option value="awaiting_payment"> Awaiting Payment (unpaid checkouts) </option>
         </select>
 
         <button
@@ -144,7 +145,9 @@ export default async function OrdersPage({
                 <td className="p-4">
                   <span
                     className={` rounded-full border px-2 py-1 text-xs font-medium 
-                      ${order.status === "pending"
+                      ${order.status === "awaiting_payment"
+                        ? "bg-gray-100"
+                        : order.status === "pending"
                         ? "bg-yellow-100"
                         : order.status === "paid"
                           ? "bg-blue-100"

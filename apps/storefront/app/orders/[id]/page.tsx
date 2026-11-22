@@ -2,12 +2,24 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { createServerSupabaseClient } from "@tkb/auth/server";
-import { getOrder } from "@tkb/database";
+import {
+  AWAITING_PAYMENT_STATUS,
+  getOrder,
+} from "@tkb/database";
 import { formatPrice } from "@tkb/ui";
+
+import { ClearCart } from "@/components/cart/clear-cart";
+import {
+  finalizePaidOrder,
+  getStripe,
+} from "@/lib/stripe";
 
 type PageProps = {
   params: Promise<{
     id: string;
+  }>;
+  searchParams: Promise<{
+    redirect_status?: string;
   }>;
 };
 
@@ -47,16 +59,69 @@ function formatStatus(
 
 export default async function OrderPage({
   params,
+  searchParams,
 }: PageProps) {
   const { id } =
     await params;
 
-  const order =
+  const { redirect_status: redirectStatus } =
+    await searchParams;
+
+  let order =
     await getOrder(id);
 
   if (!order) {
     notFound();
   }
+
+  // Stripe redirects here after payment. If the webhook hasn't marked the
+  // order paid yet, check the PaymentIntent directly so the customer sees
+  // the right state immediately (finalizePaidOrder is idempotent).
+  let paymentStatus: string | null = null;
+
+  if (
+    order.status === AWAITING_PAYMENT_STATUS &&
+    order.stripe_payment_intent_id
+  ) {
+    try {
+      const paymentIntent =
+        await getStripe().paymentIntents.retrieve(
+          order.stripe_payment_intent_id,
+        );
+
+      paymentStatus = paymentIntent.status;
+
+      if (paymentIntent.status === "succeeded") {
+        await finalizePaidOrder(
+          order.id,
+          paymentIntent.id,
+        );
+
+        // Don't re-fetch here: Next.js memoizes identical GET fetches within
+        // a render, so getOrder() would return the stale awaiting_payment row.
+        order = {
+          ...order,
+          status: "paid",
+        };
+      }
+    } catch (error) {
+      console.error(
+        "Unable to check payment status:",
+        error,
+      );
+    }
+  }
+
+  const awaitingPayment =
+    order.status === AWAITING_PAYMENT_STATUS;
+
+  const paymentProcessing =
+    awaitingPayment &&
+    paymentStatus === "processing";
+
+  const shouldClearCart =
+    redirectStatus === "succeeded" ||
+    redirectStatus === "processing";
 
   const supabase =
     await createServerSupabaseClient();
@@ -81,6 +146,41 @@ export default async function OrderPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
+      {shouldClearCart && <ClearCart />}
+
+      {awaitingPayment && !paymentProcessing ? (
+        <div className="mb-10 rounded-2xl border border-red-200 bg-red-50 p-8 shadow-sm">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Payment not completed
+          </h1>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            We haven’t received payment for this order, so it hasn’t been
+            placed. Your cart has been kept — head back to checkout to try
+            again.
+          </p>
+          <div className="mt-6">
+            <Link
+              href="/checkout"
+              className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background"
+            >
+              Return to checkout
+            </Link>
+          </div>
+        </div>
+      ) : paymentProcessing ? (
+        <div className="mb-10 rounded-2xl border bg-muted p-8 shadow-sm">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Payment processing
+          </h1>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Your payment is being processed. We’ll email{" "}
+            <span className="font-medium text-foreground">
+              {order.customer_email}
+            </span>{" "}
+            a confirmation as soon as it clears.
+          </p>
+        </div>
+      ) : (
       <div className="mb-10 rounded-2xl border bg-muted p-8 shadow-sm">
         <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
           Order Received
@@ -123,6 +223,7 @@ export default async function OrderPage({
           )}
         </div>
       </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-6">

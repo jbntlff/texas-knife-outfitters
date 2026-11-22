@@ -119,6 +119,38 @@ export default async function OrderDetailPage({
         <h2 className="mb-4 text-xl font-semibold">
           Shipping
         </h2>
+        {order.shipping_line1 && (
+          <address className="mb-4 text-sm not-italic">
+            <div className="font-medium">{order.shipping_name}</div>
+            <div>{order.shipping_line1}</div>
+            {order.shipping_line2 && <div>{order.shipping_line2}</div>}
+            <div>
+              {order.shipping_city}, {order.shipping_state}{" "}
+              {order.shipping_postal_code}
+            </div>
+            {order.shipping_phone && (
+              <div className="text-muted-foreground">
+                {order.shipping_phone}
+              </div>
+            )}
+          </address>
+        )}
+        {order.stripe_payment_intent_id && (
+          <div className="mb-4 text-sm text-muted-foreground">
+            {order.paid_at
+              ? `Paid ${new Date(order.paid_at).toLocaleString()}`
+              : "Not paid"}{" "}
+            · Stripe{" "}
+            <a
+              href={`https://dashboard.stripe.com/payments/${order.stripe_payment_intent_id}`}
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              {order.stripe_payment_intent_id}
+            </a>
+          </div>
+        )}
         {order.carrier && (
           <div className="mb-4 text-sm">
             <div>

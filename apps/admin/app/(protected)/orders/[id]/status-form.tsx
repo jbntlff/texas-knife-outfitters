@@ -40,8 +40,10 @@ export function StatusForm({
         defaultValue={currentStatus}
         className="rounded border px-3 py-2"
       >
+        <option value="awaiting_payment"> Awaiting Payment </option>
         <option value="pending"> Pending </option>
         <option value="paid"> Paid </option>
+        <option value="shipped"> Shipped </option>
         <option value="delivered"> Delivered </option>
         <option value="cancelled"> Cancelled </option>
       </select>

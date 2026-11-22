@@ -72,6 +72,7 @@ export default async function CheckoutPage() {
 
       <CheckoutForm
         initialEmail={initialEmail}
+        initialName={customerName}
       />
     </main>
   );

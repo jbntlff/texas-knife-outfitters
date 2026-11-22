@@ -221,9 +221,19 @@ export type Database = {
           grand_total: number
           id: string
           order_number: string
+          paid_at: string | null
           shipped_at: string | null
+          shipping_city: string | null
+          shipping_country: string | null
+          shipping_line1: string | null
+          shipping_line2: string | null
+          shipping_name: string | null
+          shipping_phone: string | null
+          shipping_postal_code: string | null
+          shipping_state: string | null
           shipping_total: number
           status: string
+          stripe_payment_intent_id: string | null
           subtotal: number
           tax_total: number
           tracking_number: string | null
@@ -236,9 +246,19 @@ export type Database = {
           grand_total: number
           id?: string
           order_number: string
+          paid_at?: string | null
           shipped_at?: string | null
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_line1?: string | null
+          shipping_line2?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_postal_code?: string | null
+          shipping_state?: string | null
           shipping_total?: number
           status?: string
+          stripe_payment_intent_id?: string | null
           subtotal: number
           tax_total?: number
           tracking_number?: string | null
@@ -251,9 +271,19 @@ export type Database = {
           grand_total?: number
           id?: string
           order_number?: string
+          paid_at?: string | null
           shipped_at?: string | null
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_line1?: string | null
+          shipping_line2?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_postal_code?: string | null
+          shipping_state?: string | null
           shipping_total?: number
           status?: string
+          stripe_payment_intent_id?: string | null
           subtotal?: number
           tax_total?: number
           tracking_number?: string | null
