@@ -8,6 +8,7 @@ type ProductCardProps = {
     name: string;
     product_images?: { image_url: string }[] | null;
     product_variants?: { price: number | string }[] | null;
+    show_in_gallery?: boolean | null;
   };
 };
 
@@ -34,10 +35,16 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.name}
       </h2>
 
-      {variant && (
+      {product.show_in_gallery ? (
         <p className="mt-2 text-sm text-muted-foreground">
-          ${variant.price}
+          Gallery piece · not for sale
         </p>
+      ) : (
+        variant && (
+          <p className="mt-2 text-sm text-muted-foreground">
+            ${variant.price}
+          </p>
+        )
       )}
     </Link>
   );
