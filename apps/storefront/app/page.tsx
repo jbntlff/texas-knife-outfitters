@@ -2,9 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-import { appConfig } from "@tkb/config";
 import { resolveProductImageUrl } from "@tkb/ui";
 import { getProducts } from "@tkb/database";
+
+import { ProductCard } from "@/components/product-card";
 
 const classes = [
   {
@@ -61,92 +62,104 @@ export default async function HomePage({
     };
   });
 
-  return (
-    <main className="mx-auto max-w-7xl px-6 py-12">
+  // Featured knives first, then the rest alphabetically (getProducts
+  // already sorts by name).
+  const shopProducts = [
+    ...(products ?? []).filter((product) => product.featured),
+    ...(products ?? []).filter((product) => !product.featured),
+  ].slice(0, 8);
 
-      <section className="mb-16 rounded-2xl border bg-muted/30 px-8 py-16">
-        <div className="max-w-3xl">
-          <h1 className="text-5xl font-bold tracking-tight">
-            Premium Knives for Every Adventure
+  return (
+    <main className="mx-auto max-w-7xl px-6 py-10">
+      <section className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight">
+            Shop Knives
           </h1>
 
-          <p className="mt-6 text-lg text-muted-foreground">
-            Discover everyday carry, hunting, outdoor, and collector knives
-            from the brand Texans trust the most,{" "}
-            &ldquo;{appConfig.brandName}&rdquo;.
+          <p className="mt-2 text-muted-foreground">
+            Choose a series, or browse every knife we carry.
           </p>
-
-          <div className="mt-8 flex gap-4">
-            <a
-              href="#products"
-              className="rounded-md bg-foreground px-6 py-3 text-background transition hover:opacity-90"
-            >
-              Shop Knives
-            </a>
-
-            <Link
-              href="/"
-              className="rounded-md border px-6 py-3 transition hover:bg-muted"
-            >
-              Learn More
-            </Link>
-          </div>
         </div>
+
+        <Link
+          href="/products"
+          className="rounded-md bg-foreground px-6 py-3 font-semibold text-background transition hover:opacity-90"
+        >
+          Shop all knives →
+        </Link>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-3xl font-bold">
-          Featured Products
-        </h2>
-
-        <p className="mt-2 text-muted-foreground">
-          Hand-selected knives trusted by enthusiasts, outdoorsmen, and everyday carriers.
-        </p>
-      </section>
-
-      <div id="products" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {classCards.map((item) => (
-          <div
+          <Link
             key={item.key}
+            href={`/products?series=${item.key}`}
             className="group overflow-hidden rounded-lg border bg-muted shadow-sm transition hover:shadow-md"
           >
-            <div className="relative aspect-square overflow-hidden bg-muted">
+            <div className="relative aspect-[4/3] overflow-hidden bg-muted">
               {item.imageUrl ? (
-                <Link href={`/products?series=${item.key}`}>
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.imageAlt}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition duration-300 group-hover:scale-105"
-                  />
-                </Link>
+                <Image
+                  src={item.imageUrl}
+                  alt={item.imageAlt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
               ) : (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
                   No Image
                 </div>
               )}
             </div>
 
-            <div className="p-6">
-              <h3 className="text-xl font-bold tracking-tight">
-                {item.title}
-              </h3>
+            <div className="flex items-center justify-between gap-4 p-5">
+              <div>
+                <h2 className="text-xl font-bold tracking-tight">
+                  {item.title}
+                </h2>
 
-              <p className="mt-2 text-sm text-muted-foreground">
-                {item.description}
-              </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
 
-              <Link
-                href={`/products?series=${item.key}`}
-                className="mt-6 inline-block rounded-md border px-4 py-2 text-sm font-semibold transition hover:bg-background"
+              <span
+                aria-hidden="true"
+                className="text-xl transition group-hover:translate-x-1"
               >
-                View Gallery
-              </Link>
+                →
+              </span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-    </main >
+
+      {shopProducts.length > 0 && (
+        <section className="mt-14">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <h2 className="text-2xl font-bold tracking-tight">
+              Knives
+            </h2>
+
+            <Link
+              href="/products"
+              className="text-sm font-medium underline underline-offset-4"
+            >
+              View all
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {shopProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
   );
 }
