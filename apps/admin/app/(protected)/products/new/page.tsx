@@ -156,7 +156,7 @@ export default async function NewProductPage() {
             />
 
             <label>
-              Featured Product
+              Feature on storefront home page
             </label>
           </div>
 
@@ -167,7 +167,7 @@ export default async function NewProductPage() {
             />
 
             <label>
-              Show in Gallery
+              Show in Gallery (display only, not for sale)
             </label>
           </div>
 

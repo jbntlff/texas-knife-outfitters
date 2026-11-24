@@ -67,6 +67,24 @@ export async function updateProduct(
   const showInGallery = formData.get( "showInGallery",) === "on";
   const supabase = createAdminClient();
 
+  // A knife is either a gallery piece (no variants) or for sale — never both.
+  if (showInGallery) {
+    const { count, error: countError } = await supabase
+      .from("product_variants")
+      .select("id", { count: "exact", head: true })
+      .eq("product_id", productId);
+
+    if (countError) {
+      throw countError;
+    }
+
+    if ((count ?? 0) > 0) {
+      throw new Error(
+        "Knives with variants are for sale and can't be shown in the gallery. Delete the variants first.",
+      );
+    }
+  }
+
   const { error } =
     await supabase
       .from("products")
@@ -128,6 +146,21 @@ export async function createVariant(
 
   const supabase = createAdminClient();
 
+  const { data: parent, error: parentError } = await supabase
+    .from("products")
+    .select("show_in_gallery")
+    .eq("id", productId)
+    .single();
+
+  if (parentError) {
+    throw parentError;
+  }
+
+  if (parent.show_in_gallery) {
+    throw new Error(
+      "Gallery pieces are display only. Untick \"Show in Gallery\" before adding a variant.",
+    );
+  }
 
   const {
     data: variant,

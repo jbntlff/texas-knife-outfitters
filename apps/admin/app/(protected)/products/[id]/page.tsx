@@ -39,6 +39,13 @@ export default async function ProductDetailPage({
   if (!product) {
     notFound();
   }
+  // A knife is either a gallery piece (display only, no variants) or a
+  // store product (has variants with prices) — never both.
+  const hasVariants =
+    (product.product_variants?.length ?? 0) > 0;
+  const isGalleryPiece =
+    product.show_in_gallery && !hasVariants;
+
   const images =
     [...(product.product_images ?? [])]
       .sort(
@@ -252,18 +259,28 @@ export default async function ProductDetailPage({
               </select>
             </div>
 
-            <div className="flex items-center gap-2 pt-8">
-              <input
-                type="checkbox"
-                name="featured"
-                defaultChecked={
-                  product.featured
-                }
-              />
+            <div className="pt-8">
+              <div className="flex items-center gap-2">
+                <input
+                  id="featured"
+                  type="checkbox"
+                  name="featured"
+                  defaultChecked={
+                    product.featured
+                  }
+                  disabled={isGalleryPiece}
+                />
 
-              <label>
-                Featured Product
-              </label>
+                <label htmlFor="featured">
+                  Feature on storefront home page
+                </label>
+              </div>
+
+              <p className="mt-1 text-xs text-muted-foreground">
+                {isGalleryPiece
+                  ? "Gallery pieces aren't listed in the store."
+                  : "Featured knives are listed first on the storefront home page."}
+              </p>
             </div>
           </div>
 
@@ -297,18 +314,26 @@ export default async function ProductDetailPage({
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="showInGallery"
-              defaultChecked={
-                product.show_in_gallery
-              }
-            />
+          <div>
+            <div className="flex items-center gap-2">
+              <input
+                id="showInGallery"
+                type="checkbox"
+                name="showInGallery"
+                defaultChecked={isGalleryPiece}
+                disabled={hasVariants}
+              />
 
-            <label>
-              Show in Gallery
-            </label>
+              <label htmlFor="showInGallery">
+                Show in Gallery (display only, not for sale)
+              </label>
+            </div>
+
+            <p className="mt-1 text-xs text-muted-foreground">
+              {hasVariants
+                ? "This knife has variants, so it's for sale and can't be in the gallery. Delete its variants to make it a gallery piece."
+                : "Gallery pieces appear in the brochure gallery only and are hidden from the store."}
+            </p>
           </div>
 
           <button
@@ -582,6 +607,13 @@ export default async function ProductDetailPage({
           Add Variant
         </h2>
 
+        {isGalleryPiece ? (
+          <p className="text-sm text-muted-foreground">
+            This knife is a gallery piece (display only). To sell it,
+            untick &quot;Show in Gallery&quot;, save the product, then
+            add a variant with a price.
+          </p>
+        ) : (
         <form
           action={createVariant}
           className="grid gap-4 md:grid-cols-2"
@@ -681,6 +713,7 @@ export default async function ProductDetailPage({
             </button>
           </div>
         </form>
+        )}
       </div>
 
       <div className="rounded-xl border">

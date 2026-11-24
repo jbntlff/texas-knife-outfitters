@@ -48,6 +48,8 @@ export async function getProducts() {
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .order("name");
 
   if (error) {
@@ -78,6 +80,8 @@ export async function getProductsBySeries(series: string) {
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .eq("series", series)
     .order("name");
 
@@ -206,6 +210,8 @@ export async function getProductsByBrandSlug(slug: string) {
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .eq("brands.slug", slug);
 
   if (error) {
@@ -254,6 +260,8 @@ export async function getProductsByBrandId(brandId: string) {
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .eq("brand_id", brandId);
 
   if (error) {
@@ -302,6 +310,8 @@ export async function getProductsByCategoryId(categoryId: string) {
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .eq("category_id", categoryId);
 
   if (error) {

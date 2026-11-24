@@ -56,6 +56,8 @@ export async function getSearchProducts(
       )
     `)
     .eq("status", "active")
+    // Gallery pieces are display-only and never listed in the shop.
+    .eq("show_in_gallery", false)
     .in("id", ids);
 
   if (productsError) {
