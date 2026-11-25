@@ -64,6 +64,7 @@ export default async function HomePage({ searchParams }: Props) {
                     alt={image.alt_text ?? product.name}
                     width={600}
                     height={600}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   />
                 ) : (

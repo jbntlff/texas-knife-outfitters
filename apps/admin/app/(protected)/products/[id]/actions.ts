@@ -13,6 +13,9 @@ import {
   extractStorageImagePath,
 } from "@tkb/ui";
 
+import { optimizeProductImage }
+  from "./optimize-image";
+
 export async function updateInventory(
   formData: FormData,
 ) {
@@ -402,19 +405,26 @@ export async function uploadProductImage(
   const supabase =
     createAdminClient();
 
-  const extension =
+  const originalExtension =
     file.name
       .split(".")
-      .pop();
+      .pop()
+      ?.toLowerCase() ?? "jpg";
+
+  const optimized =
+    await optimizeProductImage(
+      Buffer.from(
+        await file.arrayBuffer(),
+      ),
+      file.type,
+      originalExtension,
+    );
 
   const fileName =
-    `${randomUUID()}.${extension}`;
+    `${randomUUID()}.${optimized.extension}`;
 
   const storagePath =
     `${productId}/${fileName}`;
-
-  const arrayBuffer =
-    await file.arrayBuffer();
 
   const {
     error: uploadError,
@@ -422,12 +432,10 @@ export async function uploadProductImage(
     .from("product-images")
     .upload(
       storagePath,
-      Buffer.from(
-        arrayBuffer,
-      ),
+      optimized.buffer,
       {
         contentType:
-          file.type,
+          optimized.contentType,
         upsert: false,
       },
     );
