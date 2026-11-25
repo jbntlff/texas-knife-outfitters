@@ -56,6 +56,7 @@ export default async function RootLayout({
                     alt="Texas Knife Outfitters"
                     width={2000}
                     height={679}
+                    sizes="240px"
                     className="h-10 w-auto shrink-0 object-contain dark:invert dark:brightness-0"
                     priority
                   />

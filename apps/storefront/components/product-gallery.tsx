@@ -39,10 +39,10 @@ export function ProductGallery({
           src={resolveProductImageUrl(
             selectedImage.image_url,
           )}
-          unoptimized
           alt={selectedImage.alt_text ?? productName}
           width={800}
           height={800}
+          sizes="(min-width: 1024px) 50vw, 100vw"
           className="h-auto w-full object-cover"
           priority
         />
@@ -65,10 +65,10 @@ export function ProductGallery({
                 src={resolveProductImageUrl(
                   image.image_url,
                 )}
-                unoptimized
                 alt={image.alt_text ?? productName}
                 width={150}
                 height={150}
+                sizes="(min-width: 1024px) 12vw, 25vw"
                 className="aspect-square object-cover"
               />
             </button>
