@@ -6,9 +6,30 @@ import { archiveProduct, restoreProduct, deleteProductAction } from "./actions";
 import { getAllProducts, } from "@tkb/database";
 import { Button, } from "@tkb/ui";
 
-export default async function ProductsPage() {
-  const products =
+import { GalleryFilter } from "@/components/products/gallery-filter";
+
+type PageProps = {
+  searchParams: Promise<{
+    gallery?: string;
+  }>;
+};
+
+export default async function ProductsPage({
+  searchParams,
+}: PageProps) {
+  const params = await searchParams;
+
+  const includeGallery =
+    params.gallery !== "hide";
+
+  const allProducts =
     await getAllProducts();
+
+  const products = includeGallery
+    ? allProducts
+    : allProducts.filter(
+      (product) => !product.show_in_gallery,
+    );
 
   return (
     <div className="space-y-6">
@@ -24,12 +45,18 @@ export default async function ProductsPage() {
           </p>
         </div>
 
-        <Link
-          href="/products/new"
+        <div className="flex items-center gap-6">
+          <GalleryFilter
+            includeGallery={includeGallery}
+          />
+
+          <Link
+            href="/products/new"
           className=" rounded-lg border px-4 py-2 text-sm font-medium hover:bg-muted "
         >
-          New Product
-        </Link>
+            New Product
+          </Link>
+        </div>
       </div>
 
       <div className="rounded-xl border">
@@ -87,8 +114,14 @@ export default async function ProductsPage() {
                       className="hover:underline'"
                     >
 
-                      <div className="font-medium">
+                      <div className="flex items-center gap-2 font-medium">
                         {product.name}
+
+                        {product.show_in_gallery && (
+                          <span className="rounded-full border px-2 py-0.5 text-xs font-normal text-muted-foreground">
+                            Gallery
+                          </span>
+                        )}
                       </div>
 
                       <div className="text-sm text-muted-foreground">
